@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  eshopwebmvc:
+    image: ${DOCKER_REGISTRY-}webgoatnet
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - "sqlserver"    
+    volumes:
+      - ./contrast_security.yaml:/app/contrast_security.yaml
+    environment:
+      - CORECLR_PROFILER_PATH_64=/app/contrast/runtimes/linux-x64/native/ContrastProfiler.so
+      - CORECLR_PROFILER={8B2CE134-0948-48CA-A4B2-80DDAD9F5791}
+      - CORECLR_ENABLE_PROFILING=1
+      - CONTRAST_CONFIG_PATH=/app/contrast_security.yaml      
+  sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge
+    ports:
+      - "1433:1433"
+    environment:
+      - SA_PASSWORD=@someThingComplicated1234
+      - ACCEPT_EULA=Y
