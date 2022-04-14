@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR ./sources
 
 # copy everything else and build app
-Copy contrast_security.yaml /app
+COPY contrast_security.yaml /app
 COPY WebGoatCore/. ./sources/WebGoatCore/
 WORKDIR ./sources/WebGoatCore
 RUN dotnet publish -c release -o /app 
