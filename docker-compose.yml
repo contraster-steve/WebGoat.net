@@ -2,7 +2,8 @@ version: '3.4'
 
 services:
   webgoatnet:
-    image: ${DOCKER_REGISTRY-}webgoatnet
+    image: smithst987/webgoatnet:latest
+    container_name: webgoatnet
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -13,5 +14,9 @@ services:
       - CORECLR_PROFILER={8B2CE134-0948-48CA-A4B2-80DDAD9F5791}
       - CORECLR_ENABLE_PROFILING=1
       - CONTRAST_CONFIG_PATH=/app/contrast_security.yaml
-    ports:
+      - CONTRAST__ENABLE=TRUE
+      - CONTRAST__APPLICATION__NAME=WebGoat.net
+      - CONTRAST__APPLICATION__GROUP=application_control_2
+      - CONTRAST__APPLICATION__METADATA=bU=PS, contact=steve.smith@contrastsecurity.com      \
+      ports:
       - "5004:80"
