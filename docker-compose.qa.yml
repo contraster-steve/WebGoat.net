@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  webgoatnet:
+    environment:
+      - CONTRAST__SERVER__NAME=WebGoatnet-container-qa
+      - CONTRAST__SERVER__ENVIRONMENT=qa 
+      - CONTRAST__ASSESS__ENABLE=true
+      - CONTRAST__PROTECT__ENABLE=false
