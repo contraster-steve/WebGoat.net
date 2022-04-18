@@ -18,5 +18,5 @@ services:
       - CONTRAST__APPLICATION__NAME=WebGoat.net
       - CONTRAST__APPLICATION__GROUP=application_control_2
       - CONTRAST__APPLICATION__METADATA=bU=PS, contact=steve.smith@contrastsecurity.com      \
-      ports:
+    ports:
       - "5004:80"
