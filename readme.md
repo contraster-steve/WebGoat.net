@@ -1,11 +1,4 @@
-# WebGoat.NET version 0.1
-
-## Build status
-
-![build .NET 5](https://github.com/tobyash86/WebGoat.NETCore/workflows/build%20.NET%205/badge.svg)
-
-## The next generation of the WebGoat example project to demonstrate OWASP TOP 10 vulnerabilities
-
+# WebGoat.NET with Contrast
 This is a re-implementation of the original [WebGoat project for .NET](https://github.com/rappayne/WebGoat.NET).
 
 This web application is a learning platform that attempts to teach about
@@ -14,104 +7,68 @@ most web applications. It also contains lessons that specifically pertain to
 the .NET framework. The exercises in this app are intended to teach about 
 web security attacks and how developers can overcome them.
 
-### WARNING!: 
+## WARNING!: 
 THIS WEB APPLICATION CONTAINS NUMEROUS SECURITY VULNERABILITIES 
 WHICH WILL RENDER YOUR COMPUTER VERY INSECURE WHILE RUNNING! IT IS HIGHLY
 RECOMMENDED TO COMPLETELY DISCONNECT YOUR COMPUTER FROM ALL NETWORKS WHILE
 RUNNING!
 
-### Notes:
+## Notes:
  - Google Chrome performs filtering for reflected XSS attacks. These attacks
    will not work unless chrome is run with the argument 
    `--disable-xss-auditor`.
 
-## Requirements
-- .NET 5 SDK
+### Contrast Instrumentation 
+This repo includes the components necessary to instrument contrast Assess/Protect with this dotnet application except for the contrast_security.yaml file containing the connection strings.
+
+Specifically modified:
+
+1. WebGoatCore.csproj includes the Contrast.SensorsNetCore NuGet package as a dependency.
+2. The docker-compose.yml includes the path to the contrast_security.yaml (not included), dotnet Core specific environment variables required (CORECLR_PROFILER_PATH_64, CORECLR_PROFILER, and CORECLR_ENABLE_PROFILING=1), and a few other specific environment variables.
+3. Three other docker-compose YAMLs depending on what "environment" you're wanting to run: Development, QA, or Production.
+
+contrast_security.yaml example:
+
+api:
+  url: https://apptwo.contrastsecurity.com/Contrast
+  api_key: [REDACTED
+  service_key: [REDACTED]
+  user_name: [REDACTED]
+application:
+  session_metadata: buildNumber=${BUILD_NUMBER}, committer=Steve Smith
+
+# Requirements
+
+1. Docker Community Edition
+2. docker-compose
+
+When built, the Dockerfile pulls in all of the source code and builds the dotnet Core application. 
 
 ## How to build and run
 
-### 1. Running in a Docker container
+### 1. Running in a Docker Container
 
-The provided Dockerfile is compatible with both Linux and Windows containers.  
-To build a Docker image, execute the following command:
+The provided Dockerfile is compatible with both Linux and Windows containers (note from Steve: I've only run it on Linux).
 
-```sh
-docker build --pull --rm -t webgoat.net .
-```
+To build a Docker image, execute the following command: docker-compose build
 
 #### Linux containers
 
-To run the `webgoat.net` image, execute the following command:
+To run the `webgoatnet` Container image, execute one of the following commands:
 
-```sh
-docker run --rm -d -p 5000:80 --name webgoat.net webgoat.net
-```
+1. Development: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 
-WebGoat.NETCore website should be accessible at http://localhost:5000.
+2. QA: docker-compose -f docker-compose.yml -f docker-compose.qa.yml up -d
 
-#### Windows containers
+3. Production (this disables Assess and enables Protect): docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
-To run `webgoat.net` image, execute the following command:
+WebGoat.NET should be accessible at http://ip_address:5004.
 
-```sh
-docker run --rm --name webgoat.net webgoat.net
-```
-
-Windows containers do not support binding to localhost. To access the website, you need to provide the IP address of your Docker container. To obtain the IP, execute the following command:
-
-```sh
-docker exec webgoat.net ipconfig
-```
-The output will include the IP of the 'webgoat.net' container, for example:
-
-```
-Ethernet adapter Ethernet:
-
-   Connection-specific DNS Suffix  . : 
-   Link-local IPv6 Address . . . . . : fe80::1967:6598:124:cfa3%4
-   IPv4 Address. . . . . . . . . . . : 172.29.245.43
-   Subnet Mask . . . . . . . . . . . : 255.255.240.0
-   Default Gateway . . . . . . . . . : 172.29.240.1
-```
-
-In the above example, you can access the WebGoat.NETCore website at http://172.29.245.43.
 
 #### Stopping Docker container
 
 To stop the `webgoat.net` container, execute the following command:
 
-```sh
-docker stop webgoat.net
-```
-
-### 2. Run locally using dotnet.exe (Kestrel)
-
-1. Build and publish WebGoat.NETCore with the following command:
-
-```sh
-dotnet publish -c release -o ./app 
-```
-
-The web application will be deployed to the `app` folder in the current directory.
-
-2. Execute the web application on localhost with the following command:
-
-```sh
-dotnet ./app/WebGoatCore.dll --urls=http://localhost:5000
-```
-
-The the WebGoat.NETCore website will be accessible at the URL specified with the `--urls` parameter: http://localhost:5000.
-
-### 2. Run using a script
-The WebGoat.NET projects ships with scripts that allow you to conveniently run the web application. The following scripts are located in the the "script" directory in the root of the project:
-- runInDocker.bat - Runs the application in a Docker container on Windows.
-- runInDocker.sh - Runs the application in a Docker container on Linux.
-- runLocal.bat - Runs the application locally on Windows.
-- runLocal.sh - Runs the application locally on Linux.
-
-## Known issues:
-
-1. The latest OWASP Top 10 is not covered. The uncovered vulnerabilities need to be added to the code base.
-2. Educational documents/trainings for any categories of the latest OWASP Top 10 are not available.
+docker-compose stop 
 
 
