@@ -7,16 +7,14 @@ most web applications. It also contains lessons that specifically pertain to
 the .NET framework. The exercises in this app are intended to teach about 
 web security attacks and how developers can overcome them.
 
-## WARNING!: 
+## WARNING!
 THIS WEB APPLICATION CONTAINS NUMEROUS SECURITY VULNERABILITIES 
 WHICH WILL RENDER YOUR COMPUTER VERY INSECURE WHILE RUNNING! IT IS HIGHLY
 RECOMMENDED TO COMPLETELY DISCONNECT YOUR COMPUTER FROM ALL NETWORKS WHILE
 RUNNING!
 
-## Notes:
- - Google Chrome performs filtering for reflected XSS attacks. These attacks
-   will not work unless chrome is run with the argument 
-   `--disable-xss-auditor`.
+## Google Chrome Note
+Google Chrome performs filtering for reflected XSS attacks. These attacks will not work unless chrome is run with the argument `--disable-xss-auditor`.
 
 ### Contrast Instrumentation 
 This repo includes the components necessary to instrument contrast Assess/Protect with this dotnet application except for the contrast_security.yaml file containing the connection strings.
@@ -54,7 +52,7 @@ The provided Dockerfile is compatible with both Linux and Windows containers (no
 
 To build a Docker image, execute the following command: docker-compose build
 
-#### Linux containers
+### Linux Containers
 
 To run the `webgoatnet` Container image, execute one of the following commands:
 
@@ -67,10 +65,9 @@ To run the `webgoatnet` Container image, execute one of the following commands:
 WebGoat.NET should be accessible at http://ip_address:5004.
 
 
-#### Stopping Docker container
+### Stopping the Docker container
 
-To stop the `webgoat.net` container, execute the following command:
+To stop the `webgoat.net` container, execute the following command in the same directory as your docker-compose files: docker-compose stop 
 
-docker-compose stop 
-
-
+### 2. Building with Jenkins
+Included is a sample Jenkinsfile that can be used as a Jenkins Pipeline to build and run the application. 
