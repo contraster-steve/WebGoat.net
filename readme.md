@@ -37,6 +37,8 @@ api:
 application:
   session_metadata: buildNumber=${BUILD_NUMBER}, committer=Steve Smith
 
+Your contrast_security.yaml file needs to be in the root of the web application directory. It then gets copied into the Docker Container.
+
 # Requirements
 
 1. Docker Community Edition
