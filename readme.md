@@ -28,7 +28,7 @@ Specifically modified:
 contrast_security.yaml example:
 
 api:<br>
-&nbsp&nbspurl: https://apptwo.contrastsecurity.com/Contrast<br>
+&nbsp;&nbsp;url: https://apptwo.contrastsecurity.com/Contrast<br>
   api_key: [REDACTED<br>
   service_key: [REDACTED]<br>
   user_name: [REDACTED]<br>
