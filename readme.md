@@ -27,13 +27,13 @@ Specifically modified:
 
 contrast_security.yaml example:
 
-api:
-  url: https://apptwo.contrastsecurity.com/Contrast
-  api_key: [REDACTED
-  service_key: [REDACTED]
-  user_name: [REDACTED]
-application:
-  session_metadata: buildNumber=${BUILD_NUMBER}, committer=Steve Smith
+api:<br>
+  url: https://apptwo.contrastsecurity.com/Contrast<br>
+  api_key: [REDACTED<br>
+  service_key: [REDACTED]<br>
+  user_name: [REDACTED]<br>
+application:<br>
+  session_metadata: buildNumber=${BUILD_NUMBER}, committer=Steve Smith<br> #buildNumber is inserted via Jenkins Pipeline
 
 Your contrast_security.yaml file needs to be in the root of the web application directory. It then gets copied into the Docker Container.
 
