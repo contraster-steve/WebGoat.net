@@ -70,4 +70,4 @@ WebGoat.NET should be accessible at http://ip_address:5004.
 To stop the `webgoat.net` container, execute the following command in the same directory as your docker-compose files: docker-compose stop 
 
 ### 2. Building with Jenkins
-Included is a sample Jenkinsfile that can be used as a Jenkins Pipeline to build and run the application. 
+Included is a sample Jenkinsfile that can be used as a Jenkins Pipeline to build and run the application. The Jenkins Pipeline passes buildNumber as a parameter to the YAML. 
