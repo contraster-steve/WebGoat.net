@@ -9,7 +9,7 @@ RUN dotnet tool install --global dotnet-ef --version 5.0.0
 RUN dotnet restore
 RUN dotnet tool restore
 RUN dotnet new tool-manifest
-RUN dotnet tool update dotnet-ef
+# RUN dotnet tool update dotnet-ef
 RUN dotnet publish -c Release -o out 
 
 # final stage/image
