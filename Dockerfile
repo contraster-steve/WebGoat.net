@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install --global dotnet-ef --version 5.0.0
 RUN dotnet restore
 RUN dotnet tool restore
 RUN dotnet new tool-manifest
