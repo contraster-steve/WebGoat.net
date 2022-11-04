@@ -12,7 +12,7 @@ pipeline {
             script{
                 echo "Clean first"
                 sh 'rm -rf *'
-                echo "Download the RailsGoat from source."
+                echo "Download the WebGoat.net from source."
                 sh 'git clone https://github.com/contraster-steve/WebGoat.net'
                 }
             }
@@ -23,7 +23,7 @@ pipeline {
                 script{
                     dir('./WebGoat.net/') {
                         echo "Create YAML."
-                        sh 'echo "api:\n  url: https://apptwo.contrastsecurity.com/Contrast\n  api_key: ${api_key}\n  service_key: ${service_key}\n  user_name: ${user_name}\napplication:\n  session_metadata: buildNumber=${BUILD_NUMBER}, committer="Steve Smith"" >> ./contrast_security.yaml' 
+                        sh 'echo "api:\n  url: https://apptwo.contrastsecurity.com/Contrast\n  api_key: ${api_key}\n  service_key: ${service_key}\n  user_name: ${user_name}\napplication:\n  session_metadata: buildNumber=${BUILD_NUMBER}, committer="Steve Smith"\n  version: ${JOB_NAME}-${BUILD_NUMBER}" >> ./contrast_security.yaml' 
                         sh 'chmod 755 ./contrast_security.yaml'
                     }
                 }
@@ -46,7 +46,12 @@ pipeline {
             echo "Run Dev here."
             dir('./WebGoat.net/') {
                 sh 'docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d'
-                	}
+                }
+            sh 'sudo scp -i /home/ubuntu/steve.pem -r WebGoat.net/* ubuntu@syn.contrast.pw:/home/ubuntu/webapps/WebGoat.net/'
+            sh 'ssh -i /home/ubuntu/steve.pem ubuntu@syn.contrast.pw sudo docker-compose -f /home/ubuntu/webapps/WebGoat.net/docker-compose.yml -f /home/ubuntu/webapps/WebGoat.net/docker-compose.qa.yml up -d' 
+            echo "Deploy and run on Prod server."
+            sh 'sudo scp -i /home/ubuntu/steve.pem -r WebGoat.net/* ubuntu@ack.contrast.pw:/home/ubuntu/webapps/WebGoat.net/'
+            sh 'ssh -i /home/ubuntu/steve.pem ubuntu@ack.contrast.pw sudo docker-compose -f /home/ubuntu/webapps/WebGoat.net/docker-compose.yml -f /home/ubuntu/webapps/WebGoat.net/docker-compose.prod.yml up -d' 
                 }
             }
         }
